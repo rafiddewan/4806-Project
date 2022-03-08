@@ -15,13 +15,15 @@ public class MultipleChoiceQuestion extends Question {
 
 
     private List<String> options;
-    private List<String> answers = new ArrayList<>();
+    private List<String> answers;
+
 
     /**
      * Default constructor
      */
     public MultipleChoiceQuestion() {
         super();
+        List<String> answers = new ArrayList<>();
     }
 
     /**
@@ -33,6 +35,7 @@ public class MultipleChoiceQuestion extends Question {
 
         super(question);
         this.options = options;
+        List<String> answers = new ArrayList<>();
 
     }
 

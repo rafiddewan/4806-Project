@@ -17,19 +17,25 @@ public class Survey {
 
     @OneToMany(cascade = CascadeType.ALL)
 
-    private List<Question> questions = new ArrayList<>();
+    private List<Question> questions;
     private boolean open = true;
 
 
-    public Survey(){ }
+    public Survey(){
+       this.questions = new ArrayList<>();
+    }
 
 
-    public Survey(String name){ this.name = name; }
+    public Survey(String name){
+        this.name = name;
+        this.questions = new ArrayList<>();
+    }
 
 
     public Survey(String name, List<Question> questions){
         this.name = name;
         this.questions = questions;
+
     }
 
 
