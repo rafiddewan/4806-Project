@@ -25,7 +25,7 @@ public class OpenEndedQuestion extends Question {
 
 
     public List<String> getAnswers() {
-        return answers;
+        return this.answers;
     }
 
 
@@ -34,8 +34,9 @@ public class OpenEndedQuestion extends Question {
     }
 
 
-    public void addAnswer(String answer) {
-        this.answers.add(answer);
+    public boolean addAnswer(String answer) {
+
+        return this.answers.add(answer);
     }
 
 }

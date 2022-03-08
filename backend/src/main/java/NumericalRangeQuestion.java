@@ -10,26 +10,30 @@ import java.util.List;
 @Entity
 public class NumericalRangeQuestion extends Question {
 
-    private List<Float> answers = new ArrayList<>();
-    protected int lowerBound;
-    protected int upperBound;
+    private List<Float> answers;
+    private float lowerBound;
+    private float upperBound;
 
     /**
      * Default constructor
      */
     public NumericalRangeQuestion() {
         super();
+        this.answers = new ArrayList<>();
     }
 
     /**
      * Constructor with specified question
      * @param question the question text
+     * @param lowerBound
+     * @param upperBound
      */
-    public NumericalRangeQuestion(String question, int min, int max) {
+    public NumericalRangeQuestion(String question, float lowerBound, float upperBound) {
 
         super(question);
-        this.lowerBound = min;
-        this.upperBound = max;
+        this.lowerBound = lowerBound;
+        this.upperBound = upperBound;
+        this.answers = new ArrayList<>();
 
     }
 
@@ -37,33 +41,20 @@ public class NumericalRangeQuestion extends Question {
      * Get the minimum boundary for a question of type number_question
      * @return String
      */
-    public int getLowerBound() {
-        return lowerBound;
+    public Float getLowerBound() {
+        return this.lowerBound;
     }
 
-    /**
-     * Set the minimum boundary for a question of type number_question
-     * @param lowerBound the minimum value for the question
-     */
-    public void setLowerBound(int lowerBound) {
-        this.lowerBound = lowerBound;
-    }
 
     /**
      * Get the maximum boundary for a question of type number_question
      * @return the maximum value
      */
-    public int getUpperBound() { return upperBound; }
-
-    /**
-     * Set the maximum boundary for a question of type number_question
-     */
-    public void setUpperBound(int upperBound) { this.upperBound = upperBound; }
-
+    public Float getUpperBound() { return this.upperBound; }
 
 
     public List<Float> getAnswers() {
-        return answers;
+        return this.answers;
     }
 
 
@@ -73,7 +64,11 @@ public class NumericalRangeQuestion extends Question {
 
 
 
-    public void addAnswer(Float answer) {
-        this.answers.add(answer);
+    public boolean addAnswer(Float answer) {
+        if(answer <= this.upperBound && answer >= this.lowerBound) {
+            this.answers.add(answer);
+            return true;
+        }
+        return false;
     }
 }
