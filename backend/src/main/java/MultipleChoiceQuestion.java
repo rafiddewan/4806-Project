@@ -1,7 +1,10 @@
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import java.lang.reflect.Array;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * A question type that allows selecting one option from a dropdown of many
@@ -11,7 +14,8 @@ import java.util.*;
 public class MultipleChoiceQuestion extends Question {
 
 
-    private HashMap<String,Integer> options;
+    private List<String> options;
+    private List<String> answers;
 
 
     /**
@@ -19,8 +23,7 @@ public class MultipleChoiceQuestion extends Question {
      */
     public MultipleChoiceQuestion() {
         super();
-        this.options = new HashMap<String,Integer>();
-
+        List<String> answers = new ArrayList<>();
     }
 
     /**
@@ -31,28 +34,32 @@ public class MultipleChoiceQuestion extends Question {
     public MultipleChoiceQuestion(String question, ArrayList<String> options) {
 
         super(question);
-        this.options = new HashMap<String,Integer>();
-        for(String option: options){
-            this.options.put(option,0);
-        }
+        this.options = options;
+        List<String> answers = new ArrayList<>();
 
     }
 
-    public HashMap<String,Integer> getOptions() {
+    public Collection<String> getOptions() {
         return options;
     }
 
-    public void setOptions(HashMap<String,Integer> options) {
+    public void setOptions(ArrayList<String> options) {
         this.options = options;
+    }
+
+    public Collection<String> getAnswers() {
+        return answers;
+    }
+
+    public void setAnswers(ArrayList<String> answers) {
+        this.answers = answers;
     }
 
     /**
      * Adds a new answer
-     * @param option String
+     * @param answer String
      */
-    public void addAnswer(String option) {
-
-        this.options.put(option,this.options.get(option) + 1);
-
+    public void addAnswer(String answer) {
+        this.answers.add(answer);
     }
 }

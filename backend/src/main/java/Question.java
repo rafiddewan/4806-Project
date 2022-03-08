@@ -12,8 +12,8 @@ public abstract class Question {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
-    private String question;
+    protected long id;
+    protected String question;
 
 
     public Question() {
