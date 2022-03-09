@@ -1,4 +1,4 @@
-# SYSC 4806 Project - Mini Monkey Survey Tool
+# SYSC 4806 Project - Mini Survey Tool
 
 ## 👥 Authors and Acknowledgement 
 Sara Shikhhassan 101142208, Rafid Dewan 101073376, Sam Zoubi 101140949, Tejash Patel 101131066, Nick Coutts 101072875
