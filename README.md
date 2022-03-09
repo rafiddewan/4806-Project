@@ -23,3 +23,7 @@ able to use several related features of the app and do something reasonably usef
 
 ## 📝 Updated Database Schema
 
+## 📍 Important Links 
+Heroku Link: https://group12-mini-survey-monkey.herokuapp.com/
+CircleCI Build Link: https://app.circleci.com/pipelines/github/rafiddewan/4806-Project
+
