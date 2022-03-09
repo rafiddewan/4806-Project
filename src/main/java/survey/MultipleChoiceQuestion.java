@@ -2,8 +2,6 @@ package survey;
 
 
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -15,9 +13,7 @@ import java.util.HashMap;
 public class MultipleChoiceQuestion extends Question {
 
     private HashMap<String,Integer> options;
-    @Enumerated(EnumType.ORDINAL)
     private static final QuestionType questionType = QuestionType.MULTIPLE_CHOICE;
-
 
     /**
      * Default constructor
@@ -25,7 +21,6 @@ public class MultipleChoiceQuestion extends Question {
     public MultipleChoiceQuestion() {
         super();
         this.options = new HashMap<String,Integer>();
-
     }
 
     /**
@@ -40,7 +35,6 @@ public class MultipleChoiceQuestion extends Question {
         for(String option: options){
             this.options.put(option,0);
         }
-
     }
 
     public HashMap<String,Integer> getOptions() {
@@ -60,8 +54,6 @@ public class MultipleChoiceQuestion extends Question {
      * @param option String
      */
     public void addAnswer(String option) {
-
         this.options.put(option,this.options.get(option) + 1);
-
     }
 }

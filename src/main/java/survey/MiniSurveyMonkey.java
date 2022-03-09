@@ -22,19 +22,19 @@ public class MiniSurveyMonkey {
     @Bean
     public CommandLineRunner demo(SurveyRepository repository) {
         return (args) -> {
-            // save a few customers
+            // save a few questions in a survey
             MultipleChoiceQuestion mcq1 = new MultipleChoiceQuestion("MCQ question 1",new ArrayList<String>(Arrays.asList("MCQ1 option1", "MCQ1 option2", "MCQ1 option3")));
             MultipleChoiceQuestion mcq2 = new MultipleChoiceQuestion("MCQ question 2",new ArrayList<String>(Arrays.asList("MCQ2 option1", "MCQ2 option2", "MCQ2 option3")));
             OpenEndedQuestion oeq1 = new OpenEndedQuestion("open ended Question 1");
             NumericalRangeQuestion rangeq1 = new NumericalRangeQuestion("Numerical range question 1", 1.5F, 7.5F);
-            Survey survey = new Survey("Survey 1 name", new ArrayList<Question>(Arrays.asList(mcq1,mcq2,oeq1,rangeq1)));
-            repository.save(survey);
+            Survey survey1 = new Survey("Survey 1 name", new ArrayList<Question>(Arrays.asList(mcq1,mcq2,oeq1,rangeq1)));
+            repository.save(survey1);
 
-                      // fetch all customers
-            log.info("Customers found with findAll():");
+            // fetch all Surveys
+            log.info("Surveys found with findAll():");
             log.info("-------------------------------");
-            for (Survey surv : repository.findAll()) {
-                log.info(surv.getId().toString());
+            for (Survey survey : repository.findAll()) {
+                log.info(survey.getId().toString());
             }
             log.info("");
         };
