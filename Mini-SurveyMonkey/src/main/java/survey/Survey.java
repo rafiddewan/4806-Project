@@ -1,6 +1,7 @@
+package survey;
+
 import javax.persistence.*;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 /*
@@ -12,29 +13,28 @@ public class Survey {
 
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Id
-    private long id;
+    private Integer id;
     private String name;
 
     @OneToMany(cascade = CascadeType.ALL)
-
     private List<Question> questions;
     private boolean open;
 
 
-    public Survey(){
+    public Survey() {
         this.questions = new ArrayList<>();
         this.open = true;
     }
 
 
-    public Survey(String name){
+    public Survey(String name) {
         this.name = name;
         this.questions = new ArrayList<>();
         this.open = true;
     }
 
 
-    public Survey(String name, List<Question> questions){
+    public Survey(String name, List<Question> questions) {
         this.name = name;
         this.questions = questions;
         this.open = true;
@@ -52,12 +52,12 @@ public class Survey {
     }
 
 
-    public void setId(long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
 
-    public long getId() {
+    public Integer getId() {
         return this.id;
     }
 
@@ -72,7 +72,8 @@ public class Survey {
     }
 
 
-    public void close(){
+    public void close() {
         this.open = false;
     }
+}
 

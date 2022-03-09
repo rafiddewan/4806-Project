@@ -1,7 +1,11 @@
-import javax.persistence.ElementCollection;
+package survey;
+
+
 import javax.persistence.Entity;
-import java.lang.reflect.Array;
-import java.util.*;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * A question type that allows selecting one option from a dropdown of many
@@ -10,9 +14,9 @@ import java.util.*;
 @Entity
 public class MultipleChoiceQuestion extends Question {
 
-
-
     private HashMap<String,Integer> options;
+    @Enumerated(EnumType.ORDINAL)
+    private static final QuestionType questionType = QuestionType.MULTIPLE_CHOICE;
 
 
     /**
@@ -45,6 +49,10 @@ public class MultipleChoiceQuestion extends Question {
 
     public void setOptions(HashMap<String,Integer> options) {
         this.options = options;
+    }
+
+    public QuestionType getQuestionType() {
+        return questionType;
     }
 
     /**
