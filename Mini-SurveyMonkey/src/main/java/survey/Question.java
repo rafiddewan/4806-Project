@@ -1,10 +1,9 @@
 package survey;
 
-import javax.persistence.*;
-
 /*
  * A class to represent all questions
  */
+import javax.persistence.*;
 
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)

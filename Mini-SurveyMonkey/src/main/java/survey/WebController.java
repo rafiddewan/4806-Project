@@ -1,8 +1,5 @@
 package survey;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -22,7 +19,7 @@ public class WebController {
         return survey;
     }
 /*
-    @PostMapping("/survey.Survey")
+    @PostMapping("/Survey")
     public Optional<survey.Survey> submitSurvey(@RequestParam(value = "id", defaultValue = "1") String id, @RequestParam(value = "name", defaultValue = "New Buddy Name") String name,
                                           @RequestParam(value = "phoneNumber", defaultValue = "111-111-1111") String phoneNumber){
         Integer bookId = Integer.parseInt(id);

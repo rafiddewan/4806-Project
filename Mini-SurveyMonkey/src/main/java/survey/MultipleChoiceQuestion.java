@@ -1,7 +1,11 @@
 package survey;
 
-import javax.persistence.*;
-import java.util.*;
+
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * A question type that allows selecting one option from a dropdown of many
