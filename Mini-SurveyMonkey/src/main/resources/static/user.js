@@ -58,6 +58,7 @@ function generateSurveyForm(data) {
                 <div>
                     <input type="text" class="form-control" id="id3" placeholder="Enter Number">
                 </div>
+                <small class="form-label">Range: ${question.lowerBound} - ${question.upperBound}</small>
             </div>`;
           break;
 
