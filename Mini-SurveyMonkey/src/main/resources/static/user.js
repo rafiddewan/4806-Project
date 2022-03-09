@@ -1,97 +1,79 @@
-$(document).ready(function() {
-    $.ajax({
-        type: "GET",
-        url: "myurl"
-      })
-    .done(function( data ) {
-        alert( "Data Received: " + data );
-        data = {
-            "id": 1,
-            "name": "Survey 1 name",
-            "questions": [
-                {
-                    "id": 2,
-                    "question": "MCQ question 1",
-                    "options": {
-                        "MCQ1 option2": 0,
-                        "MCQ1 option1": 0,
-                        "MCQ1 option3": 0
-                    },
-                    "questionType": "MULTIPLE_CHOICE"
-                },
-                {
-                    "id": 3,
-                    "question": "MCQ question 2",
-                    "options": {
-                        "MCQ2 option1": 0,
-                        "MCQ2 option2": 0,
-                        "MCQ2 option3": 0
-                    },
-                    "questionType": "MULTIPLE_CHOICE"
-                },
-                {
-                    "id": 4,
-                    "question": "open ended Question 1",
-                    "answers": [],
-                    "questionType": "OPEN_ENDED"
-                },
-                {
-                    "id": 5,
-                    "question": "Numerical range question 1",
-                    "answers": [],
-                    "lowerBound": 1.5,
-                    "upperBound": 7.5,
-                    "questionType": "NUMERICAL_RANGE"
-                }
-            ]
-        }
-        generateSurveyForm(data);
+$(document).ready(function () {
+  $.ajax({
+    type: "GET",
+    url: "/Survey",
+  })
+    .done(function (data) {
+      generateSurveyForm(data);
     })
-    .fail(function(jqXHR, textStatus) {
-        data = {
-            "id": 1,
-            "name": "Survey 1 name",
-            "questions": [
-                {
-                    "id": 2,
-                    "question": "MCQ question 1",
-                    "options": {
-                        "MCQ1 option2": 0,
-                        "MCQ1 option1": 0,
-                        "MCQ1 option3": 0
-                    },
-                    "questionType": "MULTIPLE_CHOICE"
-                },
-                {
-                    "id": 3,
-                    "question": "MCQ question 2",
-                    "options": {
-                        "MCQ2 option1": 0,
-                        "MCQ2 option2": 0,
-                        "MCQ2 option3": 0
-                    },
-                    "questionType": "MULTIPLE_CHOICE"
-                },
-                {
-                    "id": 4,
-                    "question": "open ended Question 1",
-                    "answers": [],
-                    "questionType": "OPEN_ENDED"
-                },
-                {
-                    "id": 5,
-                    "question": "Numerical range question 1",
-                    "answers": [],
-                    "lowerBound": 1.5,
-                    "upperBound": 7.5,
-                    "questionType": "NUMERICAL_RANGE"
-                }
-            ]
-        }
-        generateSurveyForm(data);
-    })
+    .fail(function (jqXHR, textStatus) {
+        $("div.surveyForm").html(function () {
+            return `<h1>Error: GET request failed</h1>`;
+        });
+    });
 });
 
 function generateSurveyForm(data) {
-    data.
+  $("div.surveyForm").html(function () {
+    htmlString = "";
+    htmlString += `<h1 class='display-5 text-center mt-3 pt-3'>${data.name}</h1>`;
+    htmlString += `
+        <form action="./index.html" method "POST" onsubmit="alert('you submitted the form');">
+            <div class="container">
+                <div class="row justify-content-center">`;
+
+    data.questions.forEach((question) => {
+      switch (question.questionType) {
+        case "OPEN_ENDED":
+          htmlString += `
+            <div class="col-sm-8 p-5 rounded">
+                <p><strong>${question.question}</strong></p>
+                <textarea class="form-control" id="id2" rows="3"></textarea>
+            </div>`;
+          break;
+
+        case "MULTIPLE_CHOICE":
+          optionsHtml = "";
+          const keys = Object.keys(question.options);
+          keys.forEach((key) => {
+            optionsHtml += `
+                <div class="form-check mb-2">
+                    <input class="form-check-input" type="radio" name="exampleForm" id="radioExample2" />
+                    <label class="form-check-label" for="radioExample2">
+                        ${key}
+                    </label>
+                </div>`;
+          });
+          htmlString += `
+            <div class="col-sm-8 p-5 rounded">
+                <p><strong>${question.question}</strong></p>
+                ${optionsHtml}
+            </div>`;
+          break;
+
+        case "NUMERICAL_RANGE":
+          htmlString += `
+            <div class="col-sm-8 p-5 rounded">
+                <p><strong>${question.question}</strong></p>
+                <div>
+                    <input type="text" class="form-control" id="id3" placeholder="Enter Number">
+                </div>
+            </div>`;
+          break;
+
+        default:
+          break;
+      }
+    });
+
+    htmlString += `
+                <div class="col-sm-8 text-end m-3">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+            </div>
+        </div>
+    </form>`;
+    
+    return htmlString;
+  });
 }
