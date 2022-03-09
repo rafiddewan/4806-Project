@@ -1,6 +1,7 @@
-import javax.persistence.Entity;
+package survey;
+
+import javax.persistence.*;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 /*
@@ -9,18 +10,20 @@ import java.util.List;
 @Entity
 public class OpenEndedQuestion extends Question {
 
+    @ElementCollection(targetClass=String.class)
     private List<String> answers;
+    private static final QuestionType questionType = QuestionType.OPEN_ENDED;
 
 
     public OpenEndedQuestion() {
         super();
-        this.answers = new ArrayList<>();
+        this.answers = new ArrayList<String>();
     }
 
 
     public OpenEndedQuestion(String question) {
         super(question);
-        this.answers = new ArrayList<>();
+        this.answers = new ArrayList<String>();
     }
 
 
@@ -28,6 +31,9 @@ public class OpenEndedQuestion extends Question {
         return this.answers;
     }
 
+    public QuestionType getQuestionType() {
+        return questionType;
+    }
 
     public void setAnswers(ArrayList<String> answers) {
         this.answers = answers;

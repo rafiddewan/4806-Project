@@ -1,23 +1,22 @@
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+package survey;
+
+import javax.persistence.*;
 
 /*
  * A class to represent all questions
  */
 
 @Entity
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public abstract class Question {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    private Integer id;
     private String question;
 
 
-    public Question() {
-    }
+    public Question() {}
 
 
     public Question(String question) {
@@ -25,12 +24,12 @@ public abstract class Question {
     }
 
 
-    public long getId() {
+    public Integer getId() {
         return id;
     }
 
 
-    public void setId(long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

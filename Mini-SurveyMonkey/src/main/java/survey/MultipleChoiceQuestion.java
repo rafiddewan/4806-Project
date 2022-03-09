@@ -1,6 +1,6 @@
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import java.lang.reflect.Array;
+package survey;
+
+import javax.persistence.*;
 import java.util.*;
 
 /**
@@ -10,9 +10,9 @@ import java.util.*;
 @Entity
 public class MultipleChoiceQuestion extends Question {
 
-
-
     private HashMap<String,Integer> options;
+    @Enumerated(EnumType.ORDINAL)
+    private static final QuestionType questionType = QuestionType.MULTIPLE_CHOICE;
 
 
     /**
@@ -45,6 +45,10 @@ public class MultipleChoiceQuestion extends Question {
 
     public void setOptions(HashMap<String,Integer> options) {
         this.options = options;
+    }
+
+    public QuestionType getQuestionType() {
+        return questionType;
     }
 
     /**
