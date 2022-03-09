@@ -1,6 +1,8 @@
+package survey;
+
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 /**
@@ -10,9 +12,11 @@ import java.util.List;
 @Entity
 public class NumericalRangeQuestion extends Question {
 
+    @ElementCollection(targetClass=Float.class)
     private List<Float> answers;
     private float lowerBound;
     private float upperBound;
+    private static final QuestionType questionType = QuestionType.NUMERICAL_RANGE;
 
     /**
      * Default constructor
@@ -29,12 +33,10 @@ public class NumericalRangeQuestion extends Question {
      * @param upperBound
      */
     public NumericalRangeQuestion(String question, float lowerBound, float upperBound) {
-
         super(question);
         this.lowerBound = lowerBound;
         this.upperBound = upperBound;
         this.answers = new ArrayList<>();
-
     }
 
     /**
@@ -45,24 +47,23 @@ public class NumericalRangeQuestion extends Question {
         return this.lowerBound;
     }
 
-
     /**
      * Get the maximum boundary for a question of type number_question
      * @return the maximum value
      */
     public Float getUpperBound() { return this.upperBound; }
 
-
     public List<Float> getAnswers() {
         return this.answers;
     }
 
+    public QuestionType getQuestionType() {
+        return questionType;
+    }
 
     public void setAnswers(List<Float> answers) {
         this.answers = answers;
     }
-
-
 
     public boolean addAnswer(Float answer) {
         if(answer <= this.upperBound && answer >= lowerBound) {
