@@ -18,7 +18,7 @@ function generateSurveyForm(data) {
     htmlString = "";
     htmlString += `<h1 class='display-5 text-center mt-3 pt-3'>${data.name}</h1>`;
     htmlString += `
-        <form action="./index.html" method "POST" onsubmit="alert('you submitted the form');">
+        <form action="index.html" method "POST" onsubmit="alert('you submitted the form');">
             <div class="container">
                 <div class="row justify-content-center">`;
 
