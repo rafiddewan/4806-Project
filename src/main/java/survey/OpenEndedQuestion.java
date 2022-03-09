@@ -15,18 +15,15 @@ public class OpenEndedQuestion extends Question {
     private List<String> answers;
     private static final QuestionType questionType = QuestionType.OPEN_ENDED;
 
-
     public OpenEndedQuestion() {
         super();
         this.answers = new ArrayList<String>();
     }
 
-
     public OpenEndedQuestion(String question) {
         super(question);
         this.answers = new ArrayList<String>();
     }
-
 
     public List<String> getAnswers() {
         return this.answers;
@@ -40,10 +37,7 @@ public class OpenEndedQuestion extends Question {
         this.answers = answers;
     }
 
-
     public boolean addAnswer(String answer) {
-
         return this.answers.add(answer);
     }
-
 }
