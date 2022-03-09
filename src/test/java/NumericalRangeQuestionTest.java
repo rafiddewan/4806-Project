@@ -1,11 +1,13 @@
-import org.junit.Assert;import org.junit.Test;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
+import survey.NumericalRangeQuestion;
 
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class NumericalRangeQuestionTest {
     NumericalRangeQuestion rq1 = new NumericalRangeQuestion("Test1", 1, 10);
-
 
     @Test
     public void addAnswerTest(){

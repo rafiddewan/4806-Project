@@ -1,6 +1,8 @@
-import org.junit.Assert;import org.junit.Test;
+import org.junit.Test;
+import survey.OpenEndedQuestion;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 
 public class QuestionTest {
     OpenEndedQuestion op = new OpenEndedQuestion("Does this work?");

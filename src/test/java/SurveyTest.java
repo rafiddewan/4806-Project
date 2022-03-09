@@ -1,9 +1,13 @@
-import org.junit.Assert;import org.junit.Test;
+import org.junit.Test;
+import survey.OpenEndedQuestion;
+import survey.Question;
+import survey.Survey;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 public class SurveyTest {
     Survey survey = new Survey("Test Survey");
@@ -33,7 +37,7 @@ public class SurveyTest {
     @Test
     public void IdTest(){
         survey.setId(1);
-        assertEquals(1, survey.getId());
+        assertEquals(survey.getId(), 1);
     }
 
 

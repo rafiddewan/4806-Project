@@ -1,30 +1,40 @@
+import org.junit.Before;
 import org.junit.Test;
+import survey.MultipleChoiceQuestion;
+import survey.QuestionType;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class MultipleChoiceQuestionTest {
 
+    private MultipleChoiceQuestion mcq;
 
-    @Test
-    public void methodTest(){
+    @Before
+    public void initialize() {
         ArrayList<String> options = new ArrayList<String>();
         options.add("Volvo");
         options.add("BMW");
         options.add("Ford");
         options.add("Mazda");
-        MultipleChoiceQuestion mcq = new MultipleChoiceQuestion("Whats your fav car?", options);
-        assertEquals(,mcq.getOptions());
-
-
-
-        mcq = new MultipleChoiceQuestion("Fav car brand?", options);
-
+        mcq = new MultipleChoiceQuestion("Whats your fav car?", options);
     }
 
+    @Test
+    public void methodTest(){
+        assertEquals(mcq.getOptions().get("Volvo"), 0);
+    }
 
+    @Test
+    public void testAddAnswer() {
+        mcq.addAnswer("BMW");
+        assertEquals(mcq.getOptions().get("BMW"), 1);
+    }
 
+    @Test
+    public void testGetQuestionType() {
 
+        assertEquals(mcq.getQuestionType(), QuestionType.MULTIPLE_CHOICE);
+    }
 }
