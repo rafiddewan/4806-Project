@@ -22,6 +22,7 @@ To continue developement of the project to create a somewhat usable system. This
 able to use several related features of the app and do something reasonably useful with it.
 
 ## 📝 Updated Database Schema
+![image](https://user-images.githubusercontent.com/80846716/157693525-738564c5-b963-4ea5-b2df-379e917cde43.png)
 
 ## 📍 Important Links 
 Heroku Link: https://group12-mini-survey-monkey.herokuapp.com/
