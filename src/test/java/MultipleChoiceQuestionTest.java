@@ -1,7 +1,7 @@
 import org.junit.Before;
 import org.junit.Test;
-import survey.MultipleChoiceQuestion;
-import survey.QuestionType;
+import survey.model.MultipleChoiceQuestion;
+import survey.model.QuestionType;
 
 import java.util.ArrayList;
 

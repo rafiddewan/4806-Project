@@ -1,7 +1,5 @@
-import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
-import survey.NumericalRangeQuestion;
+import survey.model.NumericalRangeQuestion;
 
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

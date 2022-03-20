@@ -1,4 +1,6 @@
-package survey;
+package survey.model;
+
+import io.swagger.annotations.ApiModelProperty;
 
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
@@ -11,6 +13,7 @@ import java.util.List;
 @Entity
 public class OpenEndedQuestion extends Question {
 
+    @ApiModelProperty(hidden=true)
     @ElementCollection(targetClass=String.class)
     private List<String> answers;
     private static final QuestionType questionType = QuestionType.OPEN_ENDED;

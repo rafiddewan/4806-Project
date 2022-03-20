@@ -1,4 +1,6 @@
-package survey;
+package survey.model;
+
+import io.swagger.annotations.ApiModelProperty;
 
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
@@ -12,6 +14,7 @@ import java.util.List;
 @Entity
 public class NumericalRangeQuestion extends Question {
 
+    @ApiModelProperty(hidden=true)
     @ElementCollection(targetClass=Float.class)
     private List<Float> answers;
     private float lowerBound;

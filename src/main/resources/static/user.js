@@ -1,7 +1,7 @@
 $(document).ready(function () {
   $.ajax({
     type: "GET",
-    url: "/Survey",
+    url: "/lastSurvey",
   })
     .done(function (data) {
       generateSurveyForm(data);
