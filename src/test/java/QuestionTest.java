@@ -1,5 +1,5 @@
 import org.junit.Test;
-import survey.OpenEndedQuestion;
+import survey.model.OpenEndedQuestion;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 

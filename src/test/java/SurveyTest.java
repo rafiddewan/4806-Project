@@ -1,7 +1,7 @@
 import org.junit.Test;
-import survey.OpenEndedQuestion;
-import survey.Question;
-import survey.Survey;
+import survey.model.OpenEndedQuestion;
+import survey.model.Question;
+import survey.model.Survey;
 
 import java.util.ArrayList;
 import java.util.List;

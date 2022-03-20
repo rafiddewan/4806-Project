@@ -1,4 +1,4 @@
-package survey;
+package survey.model;
 
 //Enum to make parsing the JSON of a question easier
 public enum QuestionType {

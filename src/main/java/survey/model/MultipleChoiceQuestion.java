@@ -1,5 +1,4 @@
-package survey;
-
+package survey.model;
 
 import javax.persistence.Entity;
 import java.util.ArrayList;
@@ -29,7 +28,6 @@ public class MultipleChoiceQuestion extends Question {
      * @param options the possible options to choose from
      */
     public MultipleChoiceQuestion(String question, ArrayList<String> options) {
-
         super(question);
         this.options = new HashMap<String,Integer>();
         for(String option: options){

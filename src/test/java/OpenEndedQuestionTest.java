@@ -1,11 +1,9 @@
 import org.junit.Before;
 import org.junit.Test;
-import survey.MultipleChoiceQuestion;
-import survey.OpenEndedQuestion;
-import survey.QuestionType;
+import survey.model.OpenEndedQuestion;
+import survey.model.QuestionType;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
