@@ -93,10 +93,10 @@ public class TestWebApp {
 
                         .content("{\"question\":\"Numerical range question 1\",\"answers\":[],\"lowerBound\":1.5,\"upperBound\":7.5,\"questionType\":\"NUMERICAL_RANGE\"}]}")
                 )
-                .andExpect(MockMvcResultMatchers.status().isOk()).andExpect(content().json("{\"id\":3,\"question\":\"Numerical range question 1\",\"answers\":[],\"lowerBound\":1.5,\"upperBound\":7.5,\"questionType\":\"NUMERICAL_RANGE\"}]}"));
+                .andExpect(MockMvcResultMatchers.status().isOk()).andExpect(content().json("{\"id\":5,\"question\":\"Numerical range question 1\",\"answers\":[],\"lowerBound\":1.5,\"upperBound\":7.5,\"questionType\":\"NUMERICAL_RANGE\"}]}"));
         // test to see if numerical question has been added to the survey by getting the survey
         this.mockMvc.perform(get("/survey/4")).andDo(print()).andExpect(status().isOk())
-                .andExpect(content().string(containsString("{\"id\":4,\"name\":\"Survey 4\",\"questions\":[{\"id\":3,\"question\":\"Numerical range question 1\",\"answers\":[],\"lowerBound\":1.5,\"upperBound\":7.5,\"questionType\":\"NUMERICAL_RANGE\"}]}")));
+                .andExpect(content().string(containsString("{\"id\":4,\"name\":\"Survey 4\",\"questions\":[{\"id\":5,\"question\":\"Numerical range question 1\",\"answers\":[],\"lowerBound\":1.5,\"upperBound\":7.5,\"questionType\":\"NUMERICAL_RANGE\"}]}")));
 
 
     }
@@ -112,10 +112,10 @@ public class TestWebApp {
 
                         .content("{\"options\":{\"MCQ1 option1\":0,\"MCQ1 option2\":0,\"MCQ1 option3\":0},\"question\":\"Multiple Choice Question\",\"questionType\":\"MULTIPLE_CHOICE\"}]}")
                 )
-                .andExpect(MockMvcResultMatchers.status().isOk()).andExpect(content().string(containsString("{\"id\":null,\"question\":\"Multiple Choice Question\",\"options\":{\"MCQ1 option2\":0,\"MCQ1 option1\":0,\"MCQ1 option3\":0},\"questionType\":\"MULTIPLE_CHOICE\"}")));
+                .andExpect(MockMvcResultMatchers.status().isOk()).andExpect(content().string(containsString("{\"id\":1,\"question\":\"Multiple Choice Question\",\"options\":{\"MCQ1 option2\":0,\"MCQ1 option1\":0,\"MCQ1 option3\":0},\"questionType\":\"MULTIPLE_CHOICE\"}")));
 
         this.mockMvc.perform(get("/survey/5")).andDo(print()).andExpect(status().isOk())
-                .andExpect(content().string(containsString("{\"id\":5,\"name\":\"Survey 5\",\"questions\":[{\"id\":null,\"question\":\"Multiple Choice Question\",\"options\":{\"MCQ1 option2\":0,\"MCQ1 option1\":0,\"MCQ1 option3\":0},\"questionType\":\"MULTIPLE_CHOICE\"}]}")));
+                .andExpect(content().string(containsString("{\"id\":5,\"name\":\"Survey 5\",\"questions\":[{\"id\":1,\"question\":\"Multiple Choice Question\",\"options\":{\"MCQ1 option2\":0,\"MCQ1 option1\":0,\"MCQ1 option3\":0},\"questionType\":\"MULTIPLE_CHOICE\"}]}")));
 
     }
 
@@ -131,10 +131,10 @@ public class TestWebApp {
 
                         .content("{\"question\": \"Open Ended Question\",\"questionType\": \"OPEN_ENDED\"}")
                 )
-                .andExpect(MockMvcResultMatchers.status().isOk()).andExpect(content().string(containsString("{\"id\":4,\"question\":\"Open Ended Question\",\"answers\":[],\"questionType\":\"OPEN_ENDED\"}")));
+                .andExpect(MockMvcResultMatchers.status().isOk()).andExpect(content().string(containsString("{\"id\":6,\"question\":\"Open Ended Question\",\"answers\":[],\"questionType\":\"OPEN_ENDED\"}")));
 
         this.mockMvc.perform(get("/survey/6")).andDo(print()).andExpect(status().isOk())
-                .andExpect(content().string(containsString("{\"id\":6,\"name\":\"Survey 6\",\"questions\":[{\"id\":4,\"question\":\"Open Ended Question\",\"answers\":[],\"questionType\":\"OPEN_ENDED\"}]}")));
+                .andExpect(content().string(containsString("{\"id\":6,\"name\":\"Survey 6\",\"questions\":[{\"id\":6,\"question\":\"Open Ended Question\",\"answers\":[],\"questionType\":\"OPEN_ENDED\"}]}")));
 
 
 
@@ -168,7 +168,7 @@ public class TestWebApp {
 
                         .content("{\"question\": \"Open Ended Question\",\"questionType\": \"OPEN_ENDED\"}")
                 )
-                .andExpect(MockMvcResultMatchers.status().isOk()).andExpect(content().string(containsString("{\"id\":1,\"question\":\"Open Ended Question\",\"answers\":[],\"questionType\":\"OPEN_ENDED\"}")));
+                .andExpect(MockMvcResultMatchers.status().isOk()).andExpect(content().string(containsString("{\"id\":2,\"question\":\"Open Ended Question\",\"answers\":[],\"questionType\":\"OPEN_ENDED\"}")));
 
 
         this.mockMvc.perform(MockMvcRequestBuilders.post("/admin/10/numerical")
@@ -176,17 +176,17 @@ public class TestWebApp {
 
                         .content("{\"question\":\"Numerical range question 1\",\"answers\":[],\"lowerBound\":1.5,\"upperBound\":7.5,\"questionType\":\"NUMERICAL_RANGE\"}]}")
                 )
-                .andExpect(MockMvcResultMatchers.status().isOk()).andExpect(content().json("{\"id\":2,\"question\":\"Numerical range question 1\",\"answers\":[],\"lowerBound\":1.5,\"upperBound\":7.5,\"questionType\":\"NUMERICAL_RANGE\"}]}"));
+                .andExpect(MockMvcResultMatchers.status().isOk()).andExpect(content().json("{\"id\":3,\"question\":\"Numerical range question 1\",\"answers\":[],\"lowerBound\":1.5,\"upperBound\":7.5,\"questionType\":\"NUMERICAL_RANGE\"}]}"));
 
         this.mockMvc.perform(MockMvcRequestBuilders.post("/admin/10/mcq")
                         .contentType(MediaType.APPLICATION_JSON)
 
                         .content("{\"options\":{\"MCQ1 option1\":0,\"MCQ1 option2\":0,\"MCQ1 option3\":0},\"question\":\"Multiple Choice Question\",\"questionType\":\"MULTIPLE_CHOICE\"}]}")
                 )
-                .andExpect(MockMvcResultMatchers.status().isOk()).andExpect(content().string(containsString("{\"id\":null,\"question\":\"Multiple Choice Question\",\"options\":{\"MCQ1 option2\":0,\"MCQ1 option1\":0,\"MCQ1 option3\":0},\"questionType\":\"MULTIPLE_CHOICE\"}")));
+                .andExpect(MockMvcResultMatchers.status().isOk()).andExpect(content().string(containsString("{\"id\":4,\"question\":\"Multiple Choice Question\",\"options\":{\"MCQ1 option2\":0,\"MCQ1 option1\":0,\"MCQ1 option3\":0},\"questionType\":\"MULTIPLE_CHOICE\"}")));
 
         this.mockMvc.perform(get("/survey/10")).andDo(print()).andExpect(status().isOk())
-                .andExpect(content().string(containsString("{\"id\":10,\"name\":\"Survey 10\",\"questions\":[{\"id\":1,\"question\":\"Open Ended Question\",\"answers\":[],\"questionType\":\"OPEN_ENDED\"},{\"id\":2,\"question\":\"Numerical range question 1\",\"answers\":[],\"lowerBound\":1.5,\"upperBound\":7.5,\"questionType\":\"NUMERICAL_RANGE\"},{\"id\":null,\"question\":\"Multiple Choice Question\",\"options\":{\"MCQ1 option2\":0,\"MCQ1 option1\":0,\"MCQ1 option3\":0},\"questionType\":\"MULTIPLE_CHOICE\"}]}")));
+                .andExpect(content().string(containsString("{\"id\":10,\"name\":\"Survey 10\",\"questions\":[{\"id\":2,\"question\":\"Open Ended Question\",\"answers\":[],\"questionType\":\"OPEN_ENDED\"},{\"id\":3,\"question\":\"Numerical range question 1\",\"answers\":[],\"lowerBound\":1.5,\"upperBound\":7.5,\"questionType\":\"NUMERICAL_RANGE\"},{\"id\":4,\"question\":\"Multiple Choice Question\",\"options\":{\"MCQ1 option2\":0,\"MCQ1 option1\":0,\"MCQ1 option3\":0},\"questionType\":\"MULTIPLE_CHOICE\"}]}")));
 
     }
 }
