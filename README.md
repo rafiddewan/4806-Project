@@ -24,7 +24,7 @@ In this milestone, there is enough functionality to get a feel for the system an
 - Developed preliminary JUnit tests for the models
 - Created a Kanban
 - Developed a preliminary backend model
-- Created CI/CD & deployement of phase 1
+- Created initial CI/CD & deployement
 - UML class diagrams of the current classes
 - Edited the POM file to deploy heroku
 - Developed the GET REST requests on the web controller
