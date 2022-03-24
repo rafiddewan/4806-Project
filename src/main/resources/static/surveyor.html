@@ -14,7 +14,8 @@
     <link rel="icon" href="logo/icon.png">
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-    <script src="app.js"></script>
+    <script src="surveyor.js"></script>
+    <link rel="stylesheet" href="surveyor.css">
 </head>
 
 <body>
@@ -29,11 +30,24 @@
                 <ul class="nav">
                     <li class="nav-item"><a href="user.html" class="nav-link link-dark px-2">User</a></li>
                     <li class="nav-item"><a href="./surveyor.html" class="nav-link link-dark px-2">Surveyor</a></li>
-
                 </ul>
             </div>
         </nav>
-        <h1 class='display-5 text-center mt-3 pt-3'>SURVEYOR - to be added in milestone 2</h1>
+    </div>
+    <h1 class='display-5 text-center mt-3 pt-3'>Create A Survey</h1>
+
+    <div class="container grid">
+        <label for='surveyName'>Name of Survey: </label>
+        <input type='number' id='surveyName'>
+        <label class='px-3'>MCQ number of options:
+            <input type='number' id='MCQOptionsNum'>
+        </label><br>
+        <button type="button" class="new-MCQ btn btn-outline-secondary px-4 mt-1">Add Multiple Choice Question</button><br>
+        <button type="button" class="new-NumQ btn btn-outline-secondary px-4 mt-1">Add Numerical Range Question</button><br>
+        <button type="button" class="new-OpenQ btn btn-outline-secondary px-4 mt-1">Add Open Ended Question</button><br>
+        <button type="button" class="createSurvey btn btn-outline-success px-4 mt-1">Create Survey</button><br>
+    </div>
+    <div id="Questions"></div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
