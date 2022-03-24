@@ -5,8 +5,8 @@ $(document).ready(function() {
         var newMCQ = `<div class='multipleChoiceQuestion' id="question">
                         <label for='QuestionText'>Question:</label>
                         <input type='text' id='QuestionText'>`;
-        if(numOptions < 1){
-            alert("Number of Multiple Choice Options must be greater than 0!");
+        if(numOptions < 2){
+            alert("Number of Multiple Choice Options must be at least 2!");
             return 
         }
         for(var i = 1; i <= numOptions;i++){
@@ -14,9 +14,7 @@ $(document).ready(function() {
             newMCQ = newMCQ.concat(option);
         }
         newMCQ = newMCQ.concat('</div>');
-        $("#Questions").append(newMCQ) 
-
-        
+        $("#Questions").append(newMCQ) ;        
     });
 
     //Add's new numerical range question
@@ -30,8 +28,6 @@ $(document).ready(function() {
                                 <input type="number" id="LowerBound">
                             </div>`
         $("#Questions").append(newNumQuestion)  
-
-        
     });
 
     //Add's new open ended question
