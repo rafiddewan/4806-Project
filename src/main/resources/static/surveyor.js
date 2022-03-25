@@ -40,7 +40,7 @@ $(document).ready(function() {
     });
 
     //Should send a POST to the endpoint with the survey details as a JSON
-    $(".createSurvey").click(async function() {
+    $(".createSurvey").click(function() {
 
         //JSON objects initialization
         var jsonQuestions = [];
@@ -72,7 +72,6 @@ $(document).ready(function() {
             //Contains jsonData of the question
             if(error !== true) {
                 error = addJSONQuestion(jsonQuestions, this)
-                console.log(error)
             }
         });
 
@@ -80,34 +79,7 @@ $(document).ready(function() {
         if (error === true) return
 
         //Get survey response in order to get the survey id to do post requests for the questions
-        const surveyResponse = await handlePostRequest("http://localhost:8080/admin/survey", surveyName, true)
-        let surveyId = surveyResponse["id"]
-        console.log("Retrieved survey response " + surveyId)
-
-        for(let i = 0; i < jsonQuestions.length; i++){
-            let currQuestion = JSON.parse(jsonQuestions[i]);
-            // console.log(currQuestion)
-
-            //Send request to add multiple choice question
-            if("options" in currQuestion) {
-                let multipleChoiceURL = "http://localhost:8080/admin/" + surveyId +"/mcq"
-                await handlePostRequest(multipleChoiceURL, jsonQuestions[i])
-            }
-
-            //Send request to add numerical range question
-            else if("upperBound" in currQuestion && "lowerBound" in currQuestion) {
-                let numericalRangeURL = "http://localhost:8080/admin/" + surveyId +"/numerical"
-                await handlePostRequest(numericalRangeURL, jsonQuestions[i])
-            }
-
-            //Send request to add openEnded question
-            else {
-                // console.log("Sending request for open ended question")
-                let openEndedURL = "http://localhost:8080/admin/" + surveyId +"/openEnded"
-                // console.log(openEndedURL)
-                await handlePostRequest(openEndedURL, jsonQuestions[i])
-            }
-        }
+        handlePostRequest("http://localhost:8080/admin/survey", surveyName, jsonQuestions)
     });
 
     /**
@@ -217,41 +189,59 @@ $(document).ready(function() {
      * Handler for AJAX post requests for regular requests, and FETCH API requests with Promises
      * @param url
      * @param jsonData
-     * @param returnPromise
-     * @returns Promise if indicated in the returnPromise flag, otherwise will be void
+     * @param jsonQuestions
+     * @return id of the response that's created
      */
-    async function handlePostRequest(url, jsonData, returnPromise=false) {
+    function handlePostRequest(url, jsonData, jsonQuestions=null) {
         //Handle POST request with ajax
-        if(returnPromise === false) {
-            $.ajax({
-                type: "POST",
-                url: url,
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                },
-                data: jsonData
-            }).then(function (data) {
-                console.log("Created post at " + url + " for id " + data.id);
-            });
-        }
-        //Handle POST request with FETCH API since it uses promises
-        else{
-            const settings = {
-                method: 'POST',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                },
-                body: jsonData
-            };
-            try {
-                const fetchResponse = await fetch(url, settings);
-                return await fetchResponse.json();
-            } catch (e) {
-                return e;
+        $.ajax({
+            type: "POST",
+            url: url,
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            data: jsonData
+        })
+            .done(function (data) {
+                console.log("Created POST request at " + url + " for id " + data.id);
+                if(jsonQuestions !== null) sendQuestions(data.id, jsonQuestions);
+        })
+            .fail(function (jqXHR, textStatus) {
+                alert("FAILED REQUEST. Please try again");
+        });
+    }
+
+    /**
+     * Sends a list of questions back the handlePostRequest handler to create questions for the survey
+     * @param surveyId
+     * @param jsonQuestions
+     */
+    function sendQuestions(surveyId, jsonQuestions){
+        for(let i = 0; i < jsonQuestions.length; i++){
+            let currQuestion = JSON.parse(jsonQuestions[i]);
+
+            //Send request to add multiple choice question
+            if("options" in currQuestion) {
+                let multipleChoiceURL = "http://localhost:8080/admin/" + surveyId +"/mcq"
+                handlePostRequest(multipleChoiceURL, jsonQuestions[i])
+            }
+
+            //Send request to add numerical range question
+            else if("upperBound" in currQuestion && "lowerBound" in currQuestion) {
+                let numericalRangeURL = "http://localhost:8080/admin/" + surveyId +"/numerical"
+                handlePostRequest(numericalRangeURL, jsonQuestions[i])
+            }
+
+            //Send request to add openEnded question
+            else {
+                // console.log("Sending request for open ended question")
+                let openEndedURL = "http://localhost:8080/admin/" + surveyId +"/openEnded"
+                // console.log(openEndedURL)
+                handlePostRequest(openEndedURL, jsonQuestions[i])
             }
         }
     }
+
 });
 
