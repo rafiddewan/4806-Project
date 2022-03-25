@@ -53,7 +53,7 @@ $(document).ready(function() {
 
         //Check if survey name is present
         if(!surveyName) {
-            alert("Please specify the name of the survey");
+            alert("ERROR: Please specify the name of the survey");
             error = true;
             return
         }
@@ -70,108 +70,14 @@ $(document).ready(function() {
 
         questions.children().each(function () {
             //Contains jsonData of the question
-            var jsonData = {}
-
-            let questionText = $(this).find("#QuestionText").val();
-            jsonData["question"] = questionText
-            if (!questionText) {
-                alert("One of the questions is empty. Please ensure you fill out all questions")
-                error = true;
-            }
-            var classname = $(this).attr("class");
-
-            switch (classname) {
-                //open ended questions
-                case 'openEndedQuestion':
-
-                    //Create JSON Object for openEndedQuestion
-                    jsonQuestions.push(JSON.stringify({
-                        "question": questionText,
-                    }));
-                    break
-
-                //Numerical range questions
-                case 'numberRangeQuestion':
-                    let upperBound = parseInt($(this).find("#UpperBound").val());
-                    let lowerBound = parseInt($(this).find("#LowerBound").val());
-
-                    //check if its not a number
-                    if(isNaN(upperBound) || isNaN(lowerBound)) {
-                        alert("Upper Bound or Lower Bound is not a value for question " + questionText)
-                        error = true;
-                        return
-                    }
-
-                    //Check if the bounds are empty
-                    if (!upperBound || !lowerBound) {
-                        alert("Must fill in both upper bound and lower bound for question: " + questionText)
-                        error = true;
-                        return
-                    }
-
-                    //upperBound must always be greater than lowerBound
-                    else if (upperBound < lowerBound) {
-                        alert("Upper Bound must be a larger value than Lower Bound for question: " + questionText)
-                        error = true;
-                        return
-                    }
-                    else{
-                    //Create JSON Object for Numerical Range Question
-                        jsonQuestions.push(JSON.stringify({
-                            "question": questionText,
-                            "lowerBound": lowerBound,
-                            "upperBound": upperBound
-                        }));
-                    }
-                    // console.log(numericalRangeQuestions)
-                    break
-
-                //Multiple choice questions
-                case 'multipleChoiceQuestion':
-
-                    //Declare optionsJSON
-                    let optionsJSON = {}
-
-                    //Keep track of current option number
-                    let count = 1;
-
-                    //loop through each mcq option
-                    $(this).find(".MCQOption").each(function () {
-                        let option = $(this).val();
-                        console.log(option);
-
-                        //Check if all the MCQ options are filled
-                        if (!option) {
-                            alert("One of the MCQ options is empty for question: " + questionText);
-                            error = true
-                            return
-                        }
-
-                        //Add to data structure
-                        optionsJSON[option] = count
-                        count++;
-                    });
-
-                    // Return the error that occured within the option
-                    if (error) return
-
-                    else {
-                        jsonQuestions.push(JSON.stringify({
-                            "question": questionText,
-                            "options": optionsJSON,
-                        }));
-                        // console.log(multipleChoiceQuestions)
-                    }
-                    break
-
-                default:
-                    alert("Something went wrong...")
-                    return
+            if(error !== true) {
+                error = addJSONQuestion(jsonQuestions, this)
+                console.log(error)
             }
         });
 
         //Don't do the ajax call if there was an error with one of the questions
-        if (error) return
+        if (error === true) return
 
         //Get survey response in order to get the survey id to do post requests for the questions
         const surveyResponse = await handlePostRequest("http://localhost:8080/admin/survey", surveyName, true)
@@ -204,6 +110,109 @@ $(document).ready(function() {
         }
     });
 
+    /**
+     * Create the MCQ, Open-ended or Numerical Question object that will be added to jsonQuestions
+     * @param jsonQuestions
+     * @param question
+     * @returns a boolean that's true if there is an error, otherwise it's void
+     */
+    function addJSONQuestion(jsonQuestions, question){
+
+        //Get question and check if its empty
+        let questionText = $(question).find("#QuestionText").val();
+        if (!questionText) {
+            alert("ERROR: One of the questions is empty. Please ensure you fill out all questions")
+            return true
+        }
+
+        let classname = $(question).attr("class");
+
+        switch (classname) {
+            //open ended questions
+            case 'openEndedQuestion':
+
+                //Create JSON Object for openEndedQuestion
+                jsonQuestions.push(JSON.stringify({
+                    "question": questionText,
+                }));
+                break
+
+            //Numerical range questions
+            case 'numberRangeQuestion':
+                let upperBound = parseInt($(question).find("#UpperBound").val());
+                let lowerBound = parseInt($(question).find("#LowerBound").val());
+
+                //check if its not a number
+                if(isNaN(upperBound) || isNaN(lowerBound)) {
+                    alert("ERROR: Upper Bound or Lower Bound is not a value for question " + questionText)
+                    return true
+                }
+
+                //Check if the bounds are empty
+                if (!upperBound || !lowerBound) {
+                    alert("ERROR: Must fill in both upper bound and lower bound for question: " + questionText)
+                    return true
+                }
+
+                //upperBound must always be greater than lowerBound
+                else if (upperBound < lowerBound) {
+                    alert("ERROR: Upper Bound must be a larger value than Lower Bound for question: " + questionText)
+                    return true
+                }
+                else{
+                    //Create JSON Object for Numerical Range Question
+                    jsonQuestions.push(JSON.stringify({
+                        "question": questionText,
+                        "lowerBound": lowerBound,
+                        "upperBound": upperBound
+                    }));
+                }
+                // console.log(numericalRangeQuestions)
+                break
+
+            //Multiple choice questions
+            case 'multipleChoiceQuestion':
+
+                //Declare optionsJSON
+                let optionsJSON = {}
+
+                //loop through each mcq option
+                let error = false
+                $(question).find(".MCQOption").each(function () {
+                    let option = $(this).val();
+                    console.log(option);
+
+                    //Check if all the MCQ options are filled
+                    if (!option) {
+                        alert("ERROR: One of the MCQ options is empty for question: " + questionText);
+                        error = true
+                    }
+
+                    if(option in optionsJSON) {
+                        alert("ERROR: Choices for MCQ must be unique for question " + questionText)
+                        error = true
+                    }
+
+                    //Add to data structure
+                    optionsJSON[option] = 0;
+                });
+
+                // Return the error that occured within the option
+                if (error) return error
+
+                jsonQuestions.push(JSON.stringify({
+                        "question": questionText,
+                        "options": optionsJSON,
+                }));
+                    // console.log(multipleChoiceQuestions)
+                break
+
+            default:
+                alert("ERROR: Something went wrong...")
+                return true
+        }
+
+    }
     /**
      * Handler for AJAX post requests for regular requests, and FETCH API requests with Promises
      * @param url
