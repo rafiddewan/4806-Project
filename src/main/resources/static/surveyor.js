@@ -99,14 +99,12 @@ $(document).ready(function() {
                     if (!upperBound || !lowerBound) {
                         alert("Must fill in both upper bound and lower bound for question: " + questionText)
                         error = true;
-                        return
                     }
 
                     //Upperbound must always be greater than lower bound
                     else if (upperBound < lowerBound) {
                         alert("UpperBound must be a lower value than lower bound for question: " + questionText)
                         error = true;
-                        return
                     }
                     else{
                     //Create JSON Object for Numerical Range Question
@@ -159,24 +157,16 @@ $(document).ready(function() {
                     alert("Something went wrong...")
                     return
             }
-
-            //Don't do the ajax call if there was an error with one of the questions
-            if (error) return
         });
 
-        var surveyId = null
-        $.ajax({
-            type: "POST",
-            url: "http://localhost:8080/admin/survey",
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            data: surveyName
-        }).done(function (data) {
-            surveyId = data.id
-            console.log(data.id)
-        });
+        //Don't do the ajax call if there was an error with one of the questions
+        if (error) return
+
+        //Get survey response in order to get the survey id to do post requests for the questions
+        const surveyResponse = await handlePostRequest("http://localhost:8080/admin/survey", surveyName, true)
+        console.log(surveyResponse)
+        let surveyId = surveyResponse["id"]
+        console.log(surveyId)
 
         for(let i = 0; i < jsonQuestions.length; i++){
             let currQuestion = JSON.parse(jsonQuestions[i]);
@@ -185,29 +175,13 @@ $(document).ready(function() {
             //Send request to add multiple choice question
             if("options" in currQuestion) {
                 let multipleChoiceURL = "http://localhost:8080/admin/" + surveyId +"/mcq"
-                $.ajax({
-                    type: "POST",
-                    url: multipleChoiceURL,
-                    data: jsonQuestions[i]
-                }).then(function (data) {
-                    console.log("Created Multiple Choice Question " + data.id)
-                });
+                await handlePostRequest(multipleChoiceURL, jsonQuestions[i])
             }
 
             //Send request to add numerical range question
             else if("upperBound" in currQuestion && "lowerBound" in currQuestion) {
-                let numericalRangeURL = "http://localhost:8080//admin/" + surveyId +"/numericalRange"
-                $.ajax({
-                    type: "POST",
-                    url: numericalRangeURL,
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json'
-                    },
-                    data: jsonQuestions[i]
-                }).then(function (data) {
-                    console.log("Created Numerical range Question " + data.id)
-                });
+                let numericalRangeURL = "http://localhost:8080/admin/" + surveyId +"/numerical"
+                await handlePostRequest(numericalRangeURL, jsonQuestions[i])
             }
 
             //Send request to add openEnded question
@@ -215,19 +189,50 @@ $(document).ready(function() {
                 console.log("Sending request for open ended question")
                 let openEndedURL = "http://localhost:8080/admin/" + surveyId +"/openEnded"
                 console.log(openEndedURL)
-                $.ajax({
-                    type: "POST",
-                    url: openEndedURL,
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json'
-                    },
-                    data: jsonQuestions[i]
-                }).then(function (data) {
-                    console.log("Created Open Ended Question " + data.id)
-                });
+                await handlePostRequest(openEndedURL, jsonQuestions[i])
             }
         }
     });
+
+    /**
+     * Handler for AJAX post requests for regular requests, and FETCH API requests with Promises
+     * @param url
+     * @param jsonData
+     * @param returnPromise
+     * @returns Promise if indicated in the returnPromise flag, otherwise will be void
+     */
+    async function handlePostRequest(url, jsonData, returnPromise=false) {
+        //Handle POST request with ajax
+        if(returnPromise === false) {
+            $.ajax({
+                type: "POST",
+                url: url,
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                data: jsonData
+            }).then(function (data) {
+                console.log("Created post at " + url + " for id " + data.id);
+            });
+        }
+        //Handle POST request with FETCH API since it uses promises
+        else{
+            const settings = {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                body: jsonData
+            };
+            try {
+                const fetchResponse = await fetch(url, settings);
+                return await fetchResponse.json();
+            } catch (e) {
+                return e;
+            }
+        }
+    }
 });
 
