@@ -30,8 +30,8 @@ In this milestone, there is enough functionality to get a feel for the system an
 - Developed the GET REST requests on the web controller
 
 ## 🔨 Plan for Next Sprint
-To continue developement of the project to create a somewhat usable system. This will be the alpha release where users will be 
-able to use several related features of the app and do something reasonably useful with it.
+To complete the developement of the project with all required featues. This will be the final release where users can submit the survey and
+surveyor can create the survey as well as close the survey and see survey results with histograms and pie charts.
 
 ## 📝 Updated Database Schema
 ![image](https://user-images.githubusercontent.com/80846716/157693525-738564c5-b963-4ea5-b2df-379e917cde43.png)
