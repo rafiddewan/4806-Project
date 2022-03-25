@@ -92,19 +92,28 @@ $(document).ready(function() {
 
                 //Numerical range questions
                 case 'numberRangeQuestion':
-                    let upperBound = $(this).find("#UpperBound").val();
-                    let lowerBound = $(this).find("#LowerBound").val();
+                    let upperBound = parseInt($(this).find("#UpperBound").val());
+                    let lowerBound = parseInt($(this).find("#LowerBound").val());
+
+                    //check if its not a number
+                    if(isNaN(upperBound) || isNaN(lowerBound)) {
+                        alert("Upper Bound or Lower Bound is not a value for question " + questionText)
+                        error = true;
+                        return
+                    }
 
                     //Check if the bounds are empty
                     if (!upperBound || !lowerBound) {
                         alert("Must fill in both upper bound and lower bound for question: " + questionText)
                         error = true;
+                        return
                     }
 
-                    //Upperbound must always be greater than lower bound
+                    //upperBound must always be greater than lowerBound
                     else if (upperBound < lowerBound) {
-                        alert("UpperBound must be a lower value than lower bound for question: " + questionText)
+                        alert("Upper Bound must be a larger value than Lower Bound for question: " + questionText)
                         error = true;
+                        return
                     }
                     else{
                     //Create JSON Object for Numerical Range Question
@@ -135,15 +144,17 @@ $(document).ready(function() {
                         if (!option) {
                             alert("One of the MCQ options is empty for question: " + questionText);
                             error = true
+                            return
                         }
-                        let optionNumber = "option" + count
 
                         //Add to data structure
-                        optionsJSON[optionNumber] = option
+                        optionsJSON[option] = count
                         count++;
                     });
 
+                    // Return the error that occured within the option
                     if (error) return
+
                     else {
                         jsonQuestions.push(JSON.stringify({
                             "question": questionText,
