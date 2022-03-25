@@ -40,7 +40,7 @@ $(document).ready(function() {
     });
 
     //Should send a POST to the endpoint with the survey details as a JSON
-    $(".createSurvey").click(function() {
+    $(".createSurvey").click(async function() {
 
         //JSON objects initialization
         var jsonQuestions = [];
@@ -51,13 +51,14 @@ $(document).ready(function() {
         //Extract surveyName
         let surveyName = $('#surveyName').val();
 
-        console.log(surveyName);
+        //Check if survey name is present
         if(!surveyName) {
             alert("Please specify the name of the survey");
             error = true;
             return
         }
-        const obj = JSON.stringify({"name": surveyName});
+
+        surveyName = JSON.stringify({"name": surveyName});
         let questions = $('div[id^="Questions"]');
 
         //Handle empty questions
@@ -85,11 +86,8 @@ $(document).ready(function() {
 
                     //Create JSON Object for openEndedQuestion
                     jsonQuestions.push(JSON.stringify({
-                        "questionText": questionText,
-                        // "answers": [],
-                        "questiontype": "OPEN_ENDED"
+                        "question": questionText,
                     }));
-                    // console.log(openEndedQuestions)
                     break
 
                 //Numerical range questions
@@ -113,11 +111,9 @@ $(document).ready(function() {
                     else{
                     //Create JSON Object for Numerical Range Question
                         jsonQuestions.push(JSON.stringify({
-                            "questionText": questionText,
-                            // "answers": [],
+                            "question": questionText,
                             "lowerBound": lowerBound,
-                            "upperBound": upperBound,
-                            "questiontype": "NUMERICAL_RANGE"
+                            "upperBound": upperBound
                         }));
                     }
                     // console.log(numericalRangeQuestions)
@@ -152,10 +148,8 @@ $(document).ready(function() {
                     if (error) return
                     else {
                         jsonQuestions.push(JSON.stringify({
-                            "questionText": questionText,
-                            // "answers": [],
+                            "question": questionText,
                             "options": optionsJSON,
-                            "questiontype": "MULTIPLE_CHOICE"
                         }));
                         // console.log(multipleChoiceQuestions)
                     }
@@ -170,41 +164,26 @@ $(document).ready(function() {
             if (error) return
         });
 
-        let surveyId = null
-        console.log(obj)
+        var surveyId = null
         $.ajax({
             type: "POST",
             url: "http://localhost:8080/admin/survey",
-            data: obj
-        }).then(function (data) {
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            data: surveyName
+        }).done(function (data) {
             surveyId = data.id
+            console.log(data.id)
         });
 
         for(let i = 0; i < jsonQuestions.length; i++){
+            let currQuestion = JSON.parse(jsonQuestions[i]);
+            console.log(currQuestion)
 
-            if(jsonQuestions[i]["questiontype"] === "OPEN_ENDED") {
-                let openEndedURL = "http://localhost:8080/admin/" + surveyId +"/openEnded"
-                $.ajax({
-                    type: "POST",
-                    url: openEndedURL,
-                    data: jsonQuestions[i]
-                }).then(function (data) {
-                    console.log("Created Open Ended Question " + data.id)
-                });
-            }
-
-            else if(jsonQuestions[i]["questiontype"] === "NUMERICAL_RANGE") {
-                let numericalRangeURL = "http://localhost:8080//admin/" + surveyId +"/numericalRange"
-                $.ajax({
-                    type: "POST",
-                    url: numericalRangeURL,
-                    data: jsonQuestions[i]
-                }).then(function (data) {
-                    console.log("Created Numerical range Question " + data.id)
-                });
-            }
-
-            else if(jsonQuestions[i]["questiontype"] === "MULTIPLE_CHOICE") {
+            //Send request to add multiple choice question
+            if("options" in currQuestion) {
                 let multipleChoiceURL = "http://localhost:8080/admin/" + surveyId +"/mcq"
                 $.ajax({
                     type: "POST",
@@ -212,6 +191,40 @@ $(document).ready(function() {
                     data: jsonQuestions[i]
                 }).then(function (data) {
                     console.log("Created Multiple Choice Question " + data.id)
+                });
+            }
+
+            //Send request to add numerical range question
+            else if("upperBound" in currQuestion && "lowerBound" in currQuestion) {
+                let numericalRangeURL = "http://localhost:8080//admin/" + surveyId +"/numericalRange"
+                $.ajax({
+                    type: "POST",
+                    url: numericalRangeURL,
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    data: jsonQuestions[i]
+                }).then(function (data) {
+                    console.log("Created Numerical range Question " + data.id)
+                });
+            }
+
+            //Send request to add openEnded question
+            else {
+                console.log("Sending request for open ended question")
+                let openEndedURL = "http://localhost:8080/admin/" + surveyId +"/openEnded"
+                console.log(openEndedURL)
+                $.ajax({
+                    type: "POST",
+                    url: openEndedURL,
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    data: jsonQuestions[i]
+                }).then(function (data) {
+                    console.log("Created Open Ended Question " + data.id)
                 });
             }
         }
