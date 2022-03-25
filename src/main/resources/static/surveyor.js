@@ -77,7 +77,7 @@ $(document).ready(function() {
         if (error === true) return
 
         //Get survey response in order to get the survey id to do post requests for the questions
-        handlePostRequest("http://localhost:8080/admin/survey", surveyName, jsonQuestions)
+        handlePostRequest("/admin/survey", surveyName, jsonQuestions)
     });
 
     /**
@@ -218,19 +218,19 @@ $(document).ready(function() {
 
             //Send request to add multiple choice question
             if("options" in currQuestion) {
-                let multipleChoiceURL = "http://localhost:8080/admin/" + surveyId +"/mcq"
+                let multipleChoiceURL = "/admin/" + surveyId +"/mcq"
                 handlePostRequest(multipleChoiceURL, jsonQuestions[i])
             }
 
             //Send request to add numerical range question
             else if("upperBound" in currQuestion && "lowerBound" in currQuestion) {
-                let numericalRangeURL = "http://localhost:8080/admin/" + surveyId +"/numerical"
+                let numericalRangeURL = "/admin/" + surveyId +"/numerical"
                 handlePostRequest(numericalRangeURL, jsonQuestions[i])
             }
 
             //Send request to add openEnded question
             else {
-                let openEndedURL = "http://localhost:8080/admin/" + surveyId +"/openEnded"
+                let openEndedURL = "/admin/" + surveyId +"/openEnded"
                 handlePostRequest(openEndedURL, jsonQuestions[i])
             }
         }
