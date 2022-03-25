@@ -54,7 +54,6 @@ $(document).ready(function() {
         //Check if survey name is present
         if(!surveyName) {
             alert("ERROR: Please specify the name of the survey");
-            error = true;
             return
         }
 
@@ -64,7 +63,6 @@ $(document).ready(function() {
         //Handle empty questions
         if (questions.is(':empty')) {
             alert("ERROR: There must be atleast 1 question in the survey!")
-            error = true;
             return
         }
 
@@ -139,7 +137,6 @@ $(document).ready(function() {
                         "upperBound": upperBound
                     }));
                 }
-                // console.log(numericalRangeQuestions)
                 break
 
             //Multiple choice questions
@@ -152,7 +149,6 @@ $(document).ready(function() {
                 let error = false
                 $(question).find(".MCQOption").each(function () {
                     let option = $(this).val();
-                    console.log(option);
 
                     //Check if all the MCQ options are filled
                     if (!option) {
@@ -176,7 +172,6 @@ $(document).ready(function() {
                         "question": questionText,
                         "options": optionsJSON,
                 }));
-                    // console.log(multipleChoiceQuestions)
                 break
 
             default:
@@ -235,9 +230,7 @@ $(document).ready(function() {
 
             //Send request to add openEnded question
             else {
-                // console.log("Sending request for open ended question")
                 let openEndedURL = "http://localhost:8080/admin/" + surveyId +"/openEnded"
-                // console.log(openEndedURL)
                 handlePostRequest(openEndedURL, jsonQuestions[i])
             }
         }
