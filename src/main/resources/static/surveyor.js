@@ -175,13 +175,12 @@ $(document).ready(function() {
 
         //Get survey response in order to get the survey id to do post requests for the questions
         const surveyResponse = await handlePostRequest("http://localhost:8080/admin/survey", surveyName, true)
-        console.log(surveyResponse)
         let surveyId = surveyResponse["id"]
-        console.log(surveyId)
+        console.log("Retrieved survey response " + surveyId)
 
         for(let i = 0; i < jsonQuestions.length; i++){
             let currQuestion = JSON.parse(jsonQuestions[i]);
-            console.log(currQuestion)
+            // console.log(currQuestion)
 
             //Send request to add multiple choice question
             if("options" in currQuestion) {
@@ -197,9 +196,9 @@ $(document).ready(function() {
 
             //Send request to add openEnded question
             else {
-                console.log("Sending request for open ended question")
+                // console.log("Sending request for open ended question")
                 let openEndedURL = "http://localhost:8080/admin/" + surveyId +"/openEnded"
-                console.log(openEndedURL)
+                // console.log(openEndedURL)
                 await handlePostRequest(openEndedURL, jsonQuestions[i])
             }
         }
