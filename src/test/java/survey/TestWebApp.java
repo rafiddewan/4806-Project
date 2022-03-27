@@ -49,7 +49,7 @@ public class TestWebApp {
         when(service.save(ArgumentMatchers.any())).thenReturn(survey);
 
         this.mockMvc.perform(get("/lastSurvey")).andDo(print()).andExpect(status().isOk())
-                .andExpect(content().string(containsString("{\"id\":1,\"name\":\"Survey 1\",\"questions\":[]}")));
+                .andExpect(content().string(containsString("{\"id\":1,\"name\":\"Survey 1\",\"questions\":[],\"open\":true}")));
     }
 
     @Test
@@ -74,7 +74,7 @@ public class TestWebApp {
         when(service.save(ArgumentMatchers.any())).thenReturn(survey);
 
         this.mockMvc.perform(get("/survey/3")).andDo(print()).andExpect(status().isOk())
-                .andExpect(content().string(containsString("{\"id\":3,\"name\":\"Survey 3\",\"questions\":[]}")));
+                .andExpect(content().string(containsString("{\"id\":3,\"name\":\"Survey 3\",\"questions\":[],\"open\":true}")));
 
 
     }
@@ -96,7 +96,7 @@ public class TestWebApp {
                 .andExpect(MockMvcResultMatchers.status().isOk()).andExpect(content().json("{\"id\":5,\"question\":\"Numerical range question 1\",\"answers\":[],\"lowerBound\":1.5,\"upperBound\":7.5,\"questionType\":\"NUMERICAL_RANGE\"}]}"));
         // test to see if numerical question has been added to the survey by getting the survey
         this.mockMvc.perform(get("/survey/4")).andDo(print()).andExpect(status().isOk())
-                .andExpect(content().string(containsString("{\"id\":4,\"name\":\"Survey 4\",\"questions\":[{\"id\":5,\"question\":\"Numerical range question 1\",\"answers\":[],\"lowerBound\":1.5,\"upperBound\":7.5,\"questionType\":\"NUMERICAL_RANGE\"}]}")));
+                .andExpect(content().string(containsString("{\"id\":4,\"name\":\"Survey 4\",\"questions\":[{\"id\":5,\"question\":\"Numerical range question 1\",\"answers\":[],\"lowerBound\":1.5,\"upperBound\":7.5,\"questionType\":\"NUMERICAL_RANGE\"}],\"open\":true}")));
 
 
     }
@@ -115,7 +115,7 @@ public class TestWebApp {
                 .andExpect(MockMvcResultMatchers.status().isOk()).andExpect(content().string(containsString("{\"id\":1,\"question\":\"Multiple Choice Question\",\"options\":{\"MCQ1 option2\":0,\"MCQ1 option1\":0,\"MCQ1 option3\":0},\"questionType\":\"MULTIPLE_CHOICE\"}")));
 
         this.mockMvc.perform(get("/survey/5")).andDo(print()).andExpect(status().isOk())
-                .andExpect(content().string(containsString("{\"id\":5,\"name\":\"Survey 5\",\"questions\":[{\"id\":1,\"question\":\"Multiple Choice Question\",\"options\":{\"MCQ1 option2\":0,\"MCQ1 option1\":0,\"MCQ1 option3\":0},\"questionType\":\"MULTIPLE_CHOICE\"}]}")));
+                .andExpect(content().string(containsString("{\"id\":5,\"name\":\"Survey 5\",\"questions\":[{\"id\":1,\"question\":\"Multiple Choice Question\",\"options\":{\"MCQ1 option2\":0,\"MCQ1 option1\":0,\"MCQ1 option3\":0},\"questionType\":\"MULTIPLE_CHOICE\"}],\"open\":true}")));
 
     }
 
@@ -134,7 +134,7 @@ public class TestWebApp {
                 .andExpect(MockMvcResultMatchers.status().isOk()).andExpect(content().string(containsString("{\"id\":6,\"question\":\"Open Ended Question\",\"answers\":[],\"questionType\":\"OPEN_ENDED\"}")));
 
         this.mockMvc.perform(get("/survey/6")).andDo(print()).andExpect(status().isOk())
-                .andExpect(content().string(containsString("{\"id\":6,\"name\":\"Survey 6\",\"questions\":[{\"id\":6,\"question\":\"Open Ended Question\",\"answers\":[],\"questionType\":\"OPEN_ENDED\"}]}")));
+                .andExpect(content().string(containsString("{\"id\":6,\"name\":\"Survey 6\",\"questions\":[{\"id\":6,\"question\":\"Open Ended Question\",\"answers\":[],\"questionType\":\"OPEN_ENDED\"}],\"open\":true}")));
 
 
 
@@ -148,7 +148,7 @@ public class TestWebApp {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{\"id\":1,\"name\":\"New Survey\",\"questions\":[]}")
                 ).andDo(print()).andExpect(status().isOk())
-                .andExpect(content().string(containsString("{\"id\":1,\"name\":\"New Survey\",\"questions\":[]}")));
+                .andExpect(content().string(containsString("{\"id\":1,\"name\":\"New Survey\",\"questions\":[],\"open\":true}")));
 
 
     }
@@ -186,7 +186,24 @@ public class TestWebApp {
                 .andExpect(MockMvcResultMatchers.status().isOk()).andExpect(content().string(containsString("{\"id\":4,\"question\":\"Multiple Choice Question\",\"options\":{\"MCQ1 option2\":0,\"MCQ1 option1\":0,\"MCQ1 option3\":0},\"questionType\":\"MULTIPLE_CHOICE\"}")));
 
         this.mockMvc.perform(get("/survey/10")).andDo(print()).andExpect(status().isOk())
-                .andExpect(content().string(containsString("{\"id\":10,\"name\":\"Survey 10\",\"questions\":[{\"id\":2,\"question\":\"Open Ended Question\",\"answers\":[],\"questionType\":\"OPEN_ENDED\"},{\"id\":3,\"question\":\"Numerical range question 1\",\"answers\":[],\"lowerBound\":1.5,\"upperBound\":7.5,\"questionType\":\"NUMERICAL_RANGE\"},{\"id\":4,\"question\":\"Multiple Choice Question\",\"options\":{\"MCQ1 option2\":0,\"MCQ1 option1\":0,\"MCQ1 option3\":0},\"questionType\":\"MULTIPLE_CHOICE\"}]}")));
+                .andExpect(content().string(containsString("{\"id\":10,\"name\":\"Survey 10\",\"questions\":[{\"id\":2,\"question\":\"Open Ended Question\",\"answers\":[],\"questionType\":\"OPEN_ENDED\"},{\"id\":3,\"question\":\"Numerical range question 1\",\"answers\":[],\"lowerBound\":1.5,\"upperBound\":7.5,\"questionType\":\"NUMERICAL_RANGE\"},{\"id\":4,\"question\":\"Multiple Choice Question\",\"options\":{\"MCQ1 option2\":0,\"MCQ1 option1\":0,\"MCQ1 option3\":0},\"questionType\":\"MULTIPLE_CHOICE\"}],\"open\":true}")));
+
+    }
+
+    @Test
+    public void testCloseSurvey() throws Exception{
+        Survey survey = new Survey("Survey 11");
+        survey.setId(11);
+        when(service.findById(11)).thenReturn(survey);
+        when(service.save(ArgumentMatchers.any())).thenReturn(survey);
+
+        this.mockMvc.perform(post("/admin/11/close")
+                        .contentType(MediaType.APPLICATION_JSON)
+                ).andDo(print()).andExpect(status().isOk())
+                .andExpect(content().string(containsString("{\"id\":11,\"name\":\"Survey 11\",\"questions\":[],\"open\":false}")));
+
+
+
 
     }
 }
