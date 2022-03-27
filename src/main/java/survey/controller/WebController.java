@@ -62,12 +62,19 @@ public class WebController {
         return survey;
     }
 
+    @PostMapping("/admin/{surveyId}/close")
+    public Survey closeSurvey(@PathVariable(value="surveyId") int surveyId){
+        Survey survey = repository.findById(surveyId);
+        survey.close();
+        repository.save(survey);
+        return survey;
+    }
+
     @PostMapping("/admin/{surveyId}/mcq")
     public MultipleChoiceQuestion addMcqQuestionToSurvey(@PathVariable(value="surveyId") int surveyId, @RequestBody MultipleChoiceQuestion mcq){
         Survey survey = repository.findById(surveyId);
         mcqRepository.save(mcq);
         survey.addQuestion(mcq);
-        repository.save(survey);
         repository.save(survey);
         return mcq;
     }
@@ -78,7 +85,6 @@ public class WebController {
         numericalRepository.save(numerical);
         survey.addQuestion(numerical);
         repository.save(survey);
-        repository.save(survey);
         return numerical;
     }
 
@@ -87,7 +93,6 @@ public class WebController {
         Survey survey = repository.findById(surveyId);
         openEndedRepository.save(openEnded);
         survey.addQuestion(openEnded);
-        repository.save(survey);
         repository.save(survey);
         return openEnded;
     }

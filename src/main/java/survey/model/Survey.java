@@ -67,6 +67,8 @@ public class Survey {
 
     public void addQuestion(Question question) { this.questions.add(question); }
 
+    public boolean getOpen(){ return this.open; }
+
     public void close() {
         this.open = false;
     }
