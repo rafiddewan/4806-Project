@@ -109,8 +109,8 @@ $(document).ready(function() {
 
             //Numerical range questions
             case 'numberRangeQuestion':
-                let upperBound = parseInt($(question).find("#UpperBound").val());
-                let lowerBound = parseInt($(question).find("#LowerBound").val());
+                let upperBound = parseFloat($(question).find("#UpperBound").val());
+                let lowerBound = parseFloat($(question).find("#LowerBound").val());
 
                 //check if its not a number
                 if(isNaN(upperBound) || isNaN(lowerBound)) {
@@ -125,7 +125,7 @@ $(document).ready(function() {
                 }
 
                 //upperBound must always be greater than lowerBound
-                else if (upperBound < lowerBound) {
+                else if (Math.round(upperBound*100000) <= Math.round(lowerBound*100000)) {
                     alert("ERROR: Upper Bound must be a larger value than Lower Bound for question: " + questionText)
                     return true
                 }
