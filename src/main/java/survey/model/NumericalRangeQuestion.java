@@ -14,8 +14,8 @@ import java.util.List;
 @Entity
 public class NumericalRangeQuestion extends Question {
 
-    @ApiModelProperty(hidden=true)
-    @ElementCollection(targetClass=Float.class)
+    @ApiModelProperty(hidden = true)
+    @ElementCollection(targetClass = Float.class)
     private List<Float> answers;
     private float lowerBound;
     private float upperBound;
@@ -31,7 +31,8 @@ public class NumericalRangeQuestion extends Question {
 
     /**
      * Constructor with specified question
-     * @param question the question text
+     *
+     * @param question   the question text
      * @param lowerBound
      * @param upperBound
      */
@@ -44,6 +45,7 @@ public class NumericalRangeQuestion extends Question {
 
     /**
      * Get the minimum boundary for a question of type number_question
+     *
      * @return String
      */
     public Float getLowerBound() {
@@ -52,9 +54,12 @@ public class NumericalRangeQuestion extends Question {
 
     /**
      * Get the maximum boundary for a question of type number_question
+     *
      * @return the maximum value
      */
-    public Float getUpperBound() { return this.upperBound; }
+    public Float getUpperBound() {
+        return this.upperBound;
+    }
 
     public List<Float> getAnswers() {
         return this.answers;
@@ -68,11 +73,7 @@ public class NumericalRangeQuestion extends Question {
         this.answers = answers;
     }
 
-    public boolean addAnswer(Float answer) {
-        if(answer <= this.upperBound && answer >= lowerBound) {
-            this.answers.add(answer);
-            return true;
-        }
-        return false;
+    public void addAnswer(Float answer) {
+        this.answers.add(answer);
     }
 }
