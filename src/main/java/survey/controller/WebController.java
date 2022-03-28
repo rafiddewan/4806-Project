@@ -13,6 +13,7 @@ import survey.repository.SurveyRepository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 public class WebController {
@@ -97,28 +98,50 @@ public class WebController {
         return openEnded;
     }
 
-    @PostMapping("/survey/mcq/{questionId}/submit")
-    public MultipleChoiceQuestion addMcqAnswer(@PathVariable(value="questionId") int questionId, @RequestParam String answer){
-        MultipleChoiceQuestion mcq = mcqRepository.findById(questionId);
-        mcq.addAnswer(answer);
-        mcqRepository.save(mcq);
-        return mcq;
+    @PatchMapping("/survey/mcq/{questionId}/submit")
+    public MultipleChoiceQuestion addMcqAnswer(@PathVariable(value="questionId") int questionId, @RequestBody Map<Object, Object> fields){
+        MultipleChoiceQuestion mcqAnswer = mcqRepository.findById(questionId);
+        fields.forEach(
+                (change, value) -> {
+                    String changeStr = (String) change;
+                    if (changeStr.equals("answer")) mcqAnswer.addAnswer((String) value);
+                }
+        );
+        mcqRepository.save(mcqAnswer);
+        return mcqAnswer;
     }
 
-    @PostMapping("/survey/openEnded/{questionId}/submit")
-    public OpenEndedQuestion addOpenEndedAnswer(@PathVariable(value="questionId") int questionId, @RequestParam String answer){
-        OpenEndedQuestion openEndedQuestion = openEndedRepository.findById(questionId);
-        openEndedQuestion.addAnswer(answer);
-        openEndedRepository.save(openEndedQuestion);
-        return openEndedQuestion;
+    @PatchMapping("/survey/openEnded/{questionId}/submit")
+    public OpenEndedQuestion addOpenEndedAnswer(@PathVariable(value="questionId") int questionId, @RequestBody Map<Object, Object> fields){
+        OpenEndedQuestion openEndedAnswer = openEndedRepository.findById(questionId);
+        fields.forEach(
+                (change, value) -> {
+                    String changeStr = (String) change;
+                    if (changeStr.equals("answer")) openEndedAnswer.addAnswer((String) value);
+                }
+        );
+        openEndedRepository.save(openEndedAnswer);
+        return openEndedAnswer;
     }
 
-    @PostMapping("/survey/numerical/{questionId}/submit")
-    public NumericalRangeQuestion addNumericalAnswer(@PathVariable(value="questionId") int questionId, @RequestParam float answer){
-        NumericalRangeQuestion numericalRangeQuestion = numericalRepository.findById(questionId);
-        numericalRangeQuestion.addAnswer(answer);
-        numericalRepository.save(numericalRangeQuestion);
-        return numericalRangeQuestion;
+    @PatchMapping("/survey/numerical/{questionId}/submit")
+    public NumericalRangeQuestion addNumericalAnswer(@PathVariable(value="questionId") int questionId, @RequestBody Map<Object, Object> fields){
+        NumericalRangeQuestion numericalRangeAnswer = numericalRepository.findById(questionId);
+        fields.forEach(
+                (change, value) -> {
+                    String changeStr = (String) change;
+                    Double newVal;
+
+                    //Can be Integer, String, or Double
+                    if(value instanceof Integer) newVal = Double.valueOf((Integer) value);
+                    else if(value instanceof String) newVal = Double.valueOf((String) value);
+                    else newVal = (Double) value;
+
+                    if (changeStr.equals("answer")) numericalRangeAnswer.addAnswer(newVal.floatValue());
+                }
+        );
+        numericalRepository.save(numericalRangeAnswer);
+        return numericalRangeAnswer;
     }
 
 
