@@ -1,0 +1,8 @@
+#question {
+    display: grid;
+    border-radius: 15px;
+    border: 2px solid #757575;
+    padding: 20px;
+    margin: 10px;
+    background-color: #cce3fda8;
+  }
