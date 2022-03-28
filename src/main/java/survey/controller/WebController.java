@@ -98,7 +98,7 @@ public class WebController {
     }
 
     @PostMapping("/survey/mcq/{questionId}/submit")
-    public MultipleChoiceQuestion addMcqAnswer(@PathVariable(value="questionId") int questionId, @RequestParam String answer){
+    public MultipleChoiceQuestion addMcqAnswer(@PathVariable(value="questionId") int questionId, @RequestBody String answer){
         MultipleChoiceQuestion mcq = mcqRepository.findById(questionId);
         mcq.addAnswer(answer);
         mcqRepository.save(mcq);
@@ -106,7 +106,7 @@ public class WebController {
     }
 
     @PostMapping("/survey/openEnded/{questionId}/submit")
-    public OpenEndedQuestion addOpenEndedAnswer(@PathVariable(value="questionId") int questionId, @RequestParam String answer){
+    public OpenEndedQuestion addOpenEndedAnswer(@PathVariable(value="questionId") int questionId, @RequestBody String answer){
         OpenEndedQuestion openEndedQuestion = openEndedRepository.findById(questionId);
         openEndedQuestion.addAnswer(answer);
         openEndedRepository.save(openEndedQuestion);
@@ -114,7 +114,7 @@ public class WebController {
     }
 
     @PostMapping("/survey/numerical/{questionId}/submit")
-    public NumericalRangeQuestion addNumericalAnswer(@PathVariable(value="questionId") int questionId, @RequestParam float answer){
+    public NumericalRangeQuestion addNumericalAnswer(@PathVariable(value="questionId") int questionId, @RequestBody float answer){
         NumericalRangeQuestion numericalRangeQuestion = numericalRepository.findById(questionId);
         numericalRangeQuestion.addAnswer(answer);
         numericalRepository.save(numericalRangeQuestion);
