@@ -96,4 +96,30 @@ public class WebController {
         repository.save(survey);
         return openEnded;
     }
+
+    @PostMapping("/survey/mcq/{questionId}/submit")
+    public MultipleChoiceQuestion addMcqAnswer(@PathVariable(value="questionId") int questionId, @RequestParam String answer){
+        MultipleChoiceQuestion mcq = mcqRepository.findById(questionId);
+        mcq.addAnswer(answer);
+        mcqRepository.save(mcq);
+        return mcq;
+    }
+
+    @PostMapping("/survey/openEnded/{questionId}/submit")
+    public OpenEndedQuestion addOpenEndedAnswer(@PathVariable(value="questionId") int questionId, @RequestParam String answer){
+        OpenEndedQuestion openEndedQuestion = openEndedRepository.findById(questionId);
+        openEndedQuestion.addAnswer(answer);
+        openEndedRepository.save(openEndedQuestion);
+        return openEndedQuestion;
+    }
+
+    @PostMapping("/survey/numerical/{questionId}/submit")
+    public NumericalRangeQuestion addNumericalAnswer(@PathVariable(value="questionId") int questionId, @RequestParam float answer){
+        NumericalRangeQuestion numericalRangeQuestion = numericalRepository.findById(questionId);
+        numericalRangeQuestion.addAnswer(answer);
+        numericalRepository.save(numericalRangeQuestion);
+        return numericalRangeQuestion;
+    }
+
+
 }
