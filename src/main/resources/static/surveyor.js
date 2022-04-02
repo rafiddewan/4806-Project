@@ -38,7 +38,7 @@ function createTableRow(survey){
         html +=`<button type='button' id="${id}" class='btn btn-outline-danger px-4 mt-1' onclick="closeSurvey(this)">Close</button>`
     }
     else{
-        html += "<p>Closed</p>"
+        html += `<p>Closed <a href='/analytics.html?surveyId=${id}'>see results</a></p>`
     }
     html += "</td></tr>"
     
@@ -54,7 +54,7 @@ function closeSurvey(element) {
         url: `/admin/${surveyId}/close`,
     })
     .done(function (data) {
-        $(`button#${element.id}`).replaceWith("closed")  
+        $(`button#${element.id}`).replaceWith(`closed <a href='/analytics.html?surveyId=${surveyId}'>see results</a>`)  
     })
     .fail(function (jqXHR, textStatus) {
         alert("FAILED REQUEST. Please try again");
