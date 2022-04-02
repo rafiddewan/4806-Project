@@ -51,6 +51,7 @@ function generateHtml(data) {
     }
   });
 
+  $("#surveyName").html(data.name);
   $("#resultContainer").html(htmlString);
 }
 
