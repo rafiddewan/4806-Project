@@ -8,6 +8,15 @@
 - Nick Coutts 101072875
 
 ## 📄 Current State of the Project 
+###### M3
+In this milestone, we finished all required functionality of the Mini-Survey Monkey.
+- Handled functionality in the front-end to close the survey by a surveyor
+- Handled analytics for the surveyor once a survey has been completed by users and closed
+- Created and tested all new endpoints
+- Handled the user form submission
+- Validated user's answers to the surveys
+- Handled user PATCH REST requests on the webcontroller
+
 ###### M2
 In this milestone, we added basic functionality for a surveyor to create a survey and display it to the user
 - Utilized swagger to document new endpoints and to possibly be used to test APIs
