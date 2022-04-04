@@ -11,7 +11,6 @@ function getSurveys() {
     })
     .done(function (data) {
         displaySurveys(data)
-            
     })
     .fail(function (jqXHR, textStatus) {
         alert("FAILED REQUEST. Please try again");
@@ -19,7 +18,6 @@ function getSurveys() {
 }
 
 function displaySurveys(data){
-    //alert(data)
     var html = ""
     html +="<table class='center styled-table'><thead><th>ID</th> <th>Survey Name</th><th>Close?</th></thead>"
     for(let i = 0; i< data.length; i++){
@@ -37,8 +35,8 @@ function createTableRow(survey){
     if(isOpen === true){
         html +=`<button type='button' id="${id}" class='btn btn-outline-danger px-4 mt-1' onclick="closeSurvey(this)">Close</button>`
     }
-    else{
-        html += `<p>Closed <a href='/analytics.html?surveyId=${id}'>see results</a></p>`
+    else {
+        html += `<a href='/analytics.html?surveyId=${id}' class='btn btn-outline-info px-4 mt-1'>See Results</a>`
     }
     html += "</td></tr>"
     
@@ -47,14 +45,15 @@ function createTableRow(survey){
 
 
 function closeSurvey(element) {
-    surveyId = element.id
+    var surveyId = element.id
     //Handle POST request with ajax
     $.ajax({
         type: "POST",
         url: `/admin/${surveyId}/close`,
     })
     .done(function (data) {
-        $(`button#${element.id}`).replaceWith(`closed <a href='/analytics.html?surveyId=${surveyId}'>see results</a>`)  
+        console.log("closed")
+        $(`button#${surveyId}`).replaceWith(`<a href='/analytics.html?surveyId=${surveyId}' class='btn btn-outline-info px-4 mt-1'>See Results</a>`)  
     })
     .fail(function (jqXHR, textStatus) {
         alert("FAILED REQUEST. Please try again");
