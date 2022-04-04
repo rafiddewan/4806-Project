@@ -15,7 +15,7 @@ In this milestone, we finished all required functionality of the Mini-Survey Mon
 - Created and tested all new endpoints
 - Handled the user form submission
 - Validated user's answers to the surveys
-- Handled user POST REST requests on the webcontroller
+- Handled user PATCH REST requests on the webcontroller
 
 ###### M2
 In this milestone, we added basic functionality for a surveyor to create a survey and display it to the user
