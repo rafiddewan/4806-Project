@@ -8,6 +8,10 @@
 - Nick Coutts 101072875
 
 ## 📄 Current State of the Project 
+###### M3
+In this milestone, we ..
+- Ex..
+- 
 ###### M2
 In this milestone, we added basic functionality for a surveyor to create a survey and display it to the user
 - Utilized swagger to document new endpoints and to possibly be used to test APIs
