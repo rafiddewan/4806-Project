@@ -5,7 +5,7 @@ let questionIdTypePair = new Map();
 $(document).ready(function () {
   $.ajax({
     type: "GET",
-    url: `http://127.0.0.1:8080/survey/${surveyId}`,
+    url: `/survey/${surveyId}`,
   })
     .done(function (data) {
       data.questions.forEach((question) => {
@@ -109,21 +109,7 @@ function addFormListener() {
     formData.forEach((data) => {
       let question_type = questionIdTypePair.get(parseInt(data.name));
       console.log(question_type);
-      $.ajax({
-        type: "PATCH",
-        url: `/survey/${question_type}/${data.name}/submit`,
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-        data: `{"answer": "${data.value}"}`,
-      })
-        .done(function (data) {
-          console.log("Created POST request for question");
-        })
-        .fail(function (jqXHR, textStatus) {
-          error = true;
-        });
+      handlePatchRequest(`/survey/${question_type}/${data.name}/submit`, data.value);
       if (error) {
         alert("Submit failed");
       } else {
@@ -132,4 +118,23 @@ function addFormListener() {
       }
     });
   });
+
+      function handlePatchRequest(url, jsonData) {
+      $.ajax({
+        type: "PATCH",
+        url: `url`,
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        data: `{"answer": "${jsonData}"}`,
+      })
+        .done(function (data) {
+          console.log("Created PATCH Request for answer to question");
+        })
+        .fail(function (jqXHR, textStatus) {
+          error = true;
+        });
+      }
+
 }

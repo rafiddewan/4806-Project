@@ -6,7 +6,7 @@ function getSurveys() {
   //Handle GET request with ajax
   $.ajax({
     type: "GET",
-    url: "http://127.0.0.1:8080/surveys",
+    url: "/surveys",
   })
     .done(function (data) {
       displaySurveys(data);
@@ -45,6 +45,5 @@ function createTableRow(survey) {
 
 function startSurvey(element) {
   surveyId = element.id;
-  //Handle POST request with ajax
   window.location.href = `/user.html?surveyId=${surveyId}`;
 }
