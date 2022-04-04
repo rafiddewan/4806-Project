@@ -37,7 +37,7 @@ public class MiniSurveyMonkey {
             MultipleChoiceQuestion mcq1 = new MultipleChoiceQuestion("MCQ question 1",new ArrayList<String>(Arrays.asList("MCQ1 option1", "MCQ1 option2", "MCQ1 option3")));
             MultipleChoiceQuestion mcq2 = new MultipleChoiceQuestion("MCQ question 2",new ArrayList<String>(Arrays.asList("MCQ2 option1", "MCQ2 option2", "MCQ2 option3")));
             OpenEndedQuestion oeq1 = new OpenEndedQuestion("open ended Question 1");
-            NumericalRangeQuestion rangeq1 = new NumericalRangeQuestion("Numerical range question 1", 1.5F, 7.5F);
+            NumericalRangeQuestion rangeq1 = new NumericalRangeQuestion("Numerical range question 1", 1.0F, 7.0F);
             Survey survey1 = new Survey("Survey 1 name", new ArrayList<Question>(Arrays.asList(mcq1,mcq2,oeq1,rangeq1)));
             repository.save(survey1);
 
