@@ -101,28 +101,25 @@ function addFormListener() {
 
     let formData = $("#myForm").serializeArray();
 
-    console.log(formData);
+    console.log(formData); 
     console.log(questionIdTypePair);
-
-    let error = false;
-    let success = true;
+    success = false;
     formData.forEach((data) => {
       let question_type = questionIdTypePair.get(parseInt(data.name));
       console.log(question_type);
-      handlePatchRequest(`/survey/${question_type}/${data.name}/submit`, data.value);
-      if (error) {
-        alert("Submit failed");
-      } else {
-        alert("Submitted Successfully!");
-        window.location.href = "/";
-      }
+      success = handlePatchRequest(`/survey/${question_type}/${data.name}/submit`, data.value);
     });
+    if (success){
+        alert("Submitted Successfully");
+    }
   });
+  }
 
-      function handlePatchRequest(url, jsonData) {
-      $.ajax({
+function handlePatchRequest(url, jsonData) {
+    success = true;
+    $.ajax({
         type: "PATCH",
-        url: `url`,
+        url: url,
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
@@ -131,10 +128,11 @@ function addFormListener() {
       })
         .done(function (data) {
           console.log("Created PATCH Request for answer to question");
+          window.location.href = "/";
         })
         .fail(function (jqXHR, textStatus) {
-          error = true;
+          alert("Submit failed");
+          success = false; // for unsuccessful submissions
         });
-      }
-
+        return success;
 }
