@@ -17,7 +17,6 @@ function getSurveys() {
 }
 
 function displaySurveys(data) {
-  //alert(data)
   var html = "";
   html +=
     "<table class='center styled-table'><thead><th>ID</th> <th>Survey Name</th><th>Start?</th></thead>";

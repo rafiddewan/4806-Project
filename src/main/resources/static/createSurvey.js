@@ -201,6 +201,7 @@ $(document).ready(function() {
             .done(function (data) {
                 console.log("Created POST request at " + url + " for id " + data.id);
                 if(jsonQuestions !== null) sendQuestions(data.id, jsonQuestions);
+                window.location.href = "/";
         })
             .fail(function (jqXHR, textStatus) {
                 alert("FAILED REQUEST. Please try again");
